@@ -1,0 +1,42 @@
+{
+  "name": "hubot-hubot-status-board",
+  "description": "A hubot script that tracks the status of people.  Who's in, who's out with from and until.  Original concept based on hubot-out-of-office.",
+  "version": "0.0.0",
+  "author": "jasonnic@gmail.com <nichols_jason@bah.com>",
+  "license": "MIT",
+  "keywords": "status, vacation, travel",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hubot-scripts/hubot-hubot-status-board.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hubot-scripts/hubot-hubot-status-board/issues"
+  },
+  "dependencies": {
+    "chrono-node": "^1.1.5",
+    "moment": "^2.12.0"
+  },
+  "peerDependencies": {
+    "hubot": "2.x"
+  },
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "chai-things": "^0.2.0",
+    "coffee-script": "1.6.3",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-mocha-test": "~0.12.7",
+    "grunt-release": "~0.11.0",
+    "hubot": "2.x",
+    "hubot-test-helper": "^1.4.4",
+    "matchdep": "~0.3.0",
+    "mocha": "^2.4.5",
+    "sinon": "^1.13.0",
+    "sinon-chai": "^2.7.0"
+  },
+  "main": "index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  }
+}
