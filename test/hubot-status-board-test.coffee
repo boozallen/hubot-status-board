@@ -21,49 +21,50 @@ chai.use(require('chai-things'))
 
 describe 'hubot-status-board out of office variants', ->
   statusTypes = ["out of office", "on holiday", "working from home", "working remotely", "sick", "on business travel", "on an errand"]
-  
+#   statusTypes = ["out of office"]
   beforeEach ->
     @room = helper.createRoom()
 
   afterEach ->
     @room.destroy()
-  
-  context 'jason goes out of office from tomorrow till monday at 10', ->
-    actionDate = chrono.parse("tomorrow till monday at 10") 
-    console.log("Action Date: #{util.inspect(actionDate)}")
-    startDate = moment(actionDate[0].start.date() ).format(momentFormat)
-    endDate = moment(actionDate[1].start.date() ).format(momentFormat)
-    console.log("Start Date #{startDate}")
-    console.log("End Date #{endDate}")
-  
-    beforeEach ->
-        @room.user.say 'jason', 'hubot I\'m ooo from tomorrow till monday at 10'
-        
-    it "responds that jason is out of of office from #{startDate} until #{endDate}", ->
-        console.log("We got: #{@room.messages}")
-        expect(@room.messages).to.include.something.eql ['hubot', "@jason out of office from #{startDate} until #{endDate}"]   
-
-   context 'jason goes out of office tomorrow from 10 - 12', ->
-    actionDate = chrono.parse("tomorrow 10 - 12")
-    console.log("Action Date: #{actionDate}")
-    startDate = moment(actionDate[0].start.date()).format(momentFormat)
-    endDate = moment(actionDate[0].end.date() ).format(momentFormat)
     
-    beforeEach ->
-        @room.user.say 'jason', 'hubot I\'m ooo from tomorrow from 10 - 12'
-       
+  for status in statusTypes
+    do (status) ->
+        context "Jason goes #{status} from wednesday till monday at 10", ->
+            actionDate = chrono.parse("wednesday till monday at 10") 
+            console.log("Action Date: #{util.inspect(actionDate)}")
+            startDate = moment(actionDate[0].start.date() ).format(momentFormat)
+            endDate = moment(actionDate[1].start.date() ).format(momentFormat)
+            console.log("Start Date #{startDate}")
+            console.log("End Date #{endDate}")
         
-    it "responds that jason is out of of office from #{startDate} until #{endDate}", ->
-        console.log("We got: #{@room.messages}")
+            beforeEach ->
+                @room.user.say 'Jason', "hubot I'm #{status} from wednesday till monday at 10"
+                
+            it "responds that @Jason is #{status} from #{startDate} until #{endDate}", ->
+                console.log("We got: #{@room.messages}")
+                expect(@room.messages).to.include.something.eql ['hubot', "@Jason #{status} from #{startDate} until #{endDate}"]   
 
-        expect(@room.messages).to.include.something.eql ['hubot', "@jason out of office from #{startDate} until #{endDate}"]   
-  
-  context 'jason goes out of office', ->
-    beforeEach ->
-        @room.user.say 'jason', 'hubot I\'m ooo'
+        context "jason goes #{status} tomorrow 10 - 12", ->
+            actionDate = chrono.parse("tomorrow 10 - 12")
+            console.log("Action Date: #{actionDate}")
+            startDate = moment(actionDate[0].start.date()).format(momentFormat)
+            endDate = moment(actionDate[0].end.date() ).format(momentFormat)
+            
+            beforeEach ->
+                @room.user.say 'Jason', "hubot I'm #{status} from tomorrow 10 - 12"
+                
+            it "responds that @Jason is #{status} from #{startDate} until #{endDate}", ->
+                console.log("We got: #{@room.messages}")
+
+                expect(@room.messages).to.include.something.eql ['hubot', "@Jason #{status} from #{startDate} until #{endDate}"]   
         
-    it 'responds that jason is out of of office', ->
-        console.log("We got: #{@room.messages}")
+        context "Jason goes #{status}", ->
+            beforeEach ->
+                @room.user.say 'Jason', "hubot I'm #{status}"
+                
+            it "responds that @Jason is #{status}", ->
+                console.log("We got: #{@room.messages}")
 
-        expect(@room.messages).to.include.something.eql ['hubot', '@jason out of office']   
+                expect(@room.messages).to.include.something.eql ['hubot', "@Jason #{status}"]   
 

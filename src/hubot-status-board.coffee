@@ -36,18 +36,18 @@ module.exports = (robot) ->
   robot.respond /I(?:\'m| am) (?:wfh|working from home)(.*$)?/i, (res) ->
     setUntilDate robot, res, "working from home"
   
-  robot.respond /I(?:\'m| am) (?:remote|working remote)(.*$)?/i, (res) ->
+  robot.respond /I(?:\'m| am) (?:remote|working remote(?:ly))(.*$)?/i, (res) ->
     setUntilDate robot, res, "working remotely"
 
   robot.respond /I(?:\'m| am) sick(.*$)?/i, (res) ->
     setUntilDate robot, res, "sick"
 
    
-  robot.respond /I(?:\'m| am) (?:ot|traveling|on travel)(.*$)?/i, (res) ->
+  robot.respond /I(?:\'m| am) (?:ot|traveling|on travel|on business travel)(.*$)?/i, (res) ->
     setUntilDate robot, res, "on business travel" 
     
      
-  robot.respond /I(?:\'m| am) (?:errand)(.*$)?/i, (res) ->
+  robot.respond /I(?:\'m| am) on an (?:errand)(.*$)?/i, (res) ->
     setUntilDate robot, res, "on an errand" 
     
       
