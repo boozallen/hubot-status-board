@@ -30,7 +30,7 @@ module.exports = (robot) ->
     
 
   robot.respond /I(?:\'m| am) on (?:holiday|vacation)(.*$)?/i, (res) ->
-    setUntilDate robot, res, "on holiday" 
+    setUntilDate robot, res, "on vacation" 
 
 
   robot.respond /I(?:\'m| am) (?:wfh|working from home)(.*$)?/i, (res) ->
@@ -52,8 +52,8 @@ module.exports = (robot) ->
     
       
   robot.respond /I(\'m| am) back/i, (res) ->
-    robot.logger.debug("Username: #{res.message.user.name}" )
-    robot.brain.remove("#{res.message.user.name}.userStatus")
+    robot.logger.debug("Username: #{res.message.user.name.toLowerCase()}" )
+    robot.brain.remove("#{res.message.user.name.toLowerCase()}.userStatus")
     robot.logger.debug("Brain Status: #{util.inspect(robot.brain, {depth: null})}")
 
     res.reply "welcome back!"
@@ -80,46 +80,60 @@ module.exports = (robot) ->
 
 
   robot.respond /where(\'s| is) every(one|body)\??/i, (res) ->
-    results = []
+    robot.logger.debug("Brain Status: #{util.inspect(robot.brain, {depth:null})}")
+
+    staffOutOfOffice = []
     for own key, user of robot.brain.data.users
-      status = robot.brain.get("#{user.name.toLowerCase()}.userStatus")
-      if status?
-        robot.logger.debug("Status: #{status}")
-        untilDate = robot.brain.get("#{user.name.toLowerCase()}.userStatus.until")
-        if untilDate?
-            #robot.logger.debug("status until #{untilDate}") if untilDate?
-            results.push {name: user.real_name, status: status, until: moment(untilDate).format(momentFormat)}
-        else
-            results.push {name: user.real_name, status: status}
-    robot.logger.debug("Results: #{util.inspect(results)}")    
-    response = results.reduce(((x,y) -> 
-        if y.until?
-            x + "#{y.name} is #{y.status} until #{y.until}\n"
-        else
-            x + "#{y.name} is #{y.status}\n"), "")
-    robot.logger.debug("Response: #{util.inspect(response)}")
-    return res.send 'everybody should be in...' unless !!response
-    res.send "#{response}" 
+      userStatus = robot.brain.get("#{user.name.toLowerCase()}.userStatus")
+      robot.logger.debug("UserStatus: #{util.inspect(userStatus)}")
+
+      if userStatus?
+        fromClause = createFromClause userStatus.startDate
+        untilClause = createUntilClause userStatus.endDate
+        staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}\n"
+        
+    robot.logger.debug("staffOutOfOffice: #{util.inspect(staffOutOfOffice)}")    
+    # response = results.reduce(((x,y) ->
+    #     robot.logger.debug("Y: #{util.inspect(y)}")
+    #     fromClause = createFromClause y.userStatus.startDate
+    #     untilClause = createUntilClause y.userStatus.endDate 
+    #     robot.logger.debug("From: #{fromClause}")
+    #     robot.logger.debug("To: #{untilClause}")
+    #     x + "#{y.name} is #{y.status}#{fromClause}#{untilClause}\n"), "")
+    # robot.logger.debug("Response: #{util.inspect(response)}")
+    return res.send 'Everyone\'s in' unless staffOutOfOffice.length > 0
+    res.send "#{staffOutOfOffice}" 
 
   ##Nightly reset
-  robot.respond /(it(\'s| is) a new day|reset|reset status|nightly)/i, (res) ->
-    results = []
+  robot.respond /(it(\'s| is) a new day|reset|reset|nightly)/i, (res) ->
+    staffOutOfOffice = []
+    robot.logger.debug("Brain Status: #{util.inspect(robot.brain, {depth:null})}")
+
     for own key, user of robot.brain.data.users
-        untilDate = robot.brain.get("#{user.name.toLowerCase()}.ooo.until")
+        userStatus = robot.brain.get("#{user.name.toLowerCase()}.userStatus")
+        
+        if userStatus?
+            robot.logger.debug("user is #{util.inspect(user, {depth:null})}")
+            robot.logger.debug("UserStatus: #{util.inspect(userStatus)}")
+            if userStatus.startDate?
+                latestDate = userStatus.startDate if userStatus.startDate?
+                latestDate = userStatus.endDate if userStatus.endDate?
+                robot.logger.debug("latestDate: #{util.inspect(latestDate)}")
 
-        if untilDate? && moment(untilDate).isAfter(chrono.parseDate("today"))
-            robot.logger.debug("Status Until: #{untilDate} not removing status")    
+                if latestDate? && moment(latestDate).isAfter(chrono.parseDate("today"))
+                    robot.logger.debug("Status Until: #{latestDate} not removing status")    
+                    fromClause = createFromClause userStatus.startDate
+                    untilClause = createUntilClause userStatus.endDate
+                    staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}\n"
+                else
+                    robot.brain.remove("#{user.name.toLowerCase()}.userStatus")
+            else
+                robot.brain.remove("#{user.name.toLowerCase()}.userStatus")
 
-            results.push {name: user.real_name, status: robot.brain.get("#{user.name.toLowerCase()}.ooo"), until: moment(untilDate).format(momentFormat)}
-        else
-            robot.brain.remove("#{user.name.toLowerCase()}.ooo")
-    if results?
-        robot.logger.debug("Results: #{util.inspect(results)}")    
+    robot.logger.debug("staffOutOfOffice: #{util.inspect(staffOutOfOffice)}")    
 
-        response = results.reduce(((x,y) -> x + "#{y.name} is #{y.status} until #{y.until}\n"), "") 
-        robot.logger.debug("Response: #{util.inspect(response)}")
-
-        return res.send "It's a new day!  The team is in except for:\n#{response}"
+    if staffOutOfOffice.length > 0
+        return res.send "It's a new day!  The team is in except for:\n#{staffOutOfOffice}"
     else
         return res.send 'It\'s a new day!\nThe entire team is in!'
     
@@ -127,7 +141,7 @@ module.exports = (robot) ->
     for own key, user of robot.brain.data.users
       robot.brain.remove("#{user.name.toLowerCase()}.userStatus")
     robot.logger.debug("Brain Status: #{util.inspect(robot.brain)}")
-    return res.send 'Forced Reset Done, everybody is in!'
+    return res.send 'Forced Reset Done, everybody\'s in!'
     
         
 
