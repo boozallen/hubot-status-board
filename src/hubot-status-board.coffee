@@ -47,25 +47,37 @@ module.exports = (robot) ->
     setUntilDate robot, res, "on business travel" 
     
      
-  robot.respond /I(?:\'m| am) on an (?:errand)(.*$)?/i, (res) ->
+  robot.respond /I(?:\'m| am)(?: running| on) an (?:errand)(.*$)?/i, (res) ->
     setUntilDate robot, res, "on an errand" 
     
       
   robot.respond /I(\'m| am) back/i, (res) ->
+    robot.logger.debug("Username: #{res.message.user.name}" )
     robot.brain.remove("#{res.message.user.name}.userStatus")
+    robot.logger.debug("Brain Status: #{util.inspect(robot.brain, {depth: null})}")
+
     res.reply "welcome back!"
 
 
 
-  robot.respond /where(\'s| is) @([\w.-]*)\??/i, (res) ->
-    username = res.match[2]
+  robot.respond /where(?:\'s| is) @([\w.-]*)\??/i, (res) ->
+    robot.logger.debug("Matches: #{util.inspect(res.match)}")
+    username = res.match[1]
     user = robot.brain.userForName username
-    return res.reply "who is #{username}?" unless user?
+    return res.reply "Who is @#{username}?" unless user?
+    
+    robot.logger.debug("Brain Status: #{util.inspect(robot.brain, {depth: null})}")
 
-    status = robot.brain.get("#{username.toLowerCase()}.userStatus")
+    
+    userStatus = robot.brain.get("#{username.toLowerCase()}.userStatus")
+    robot.logger.debug("UserStatus: #{util.inspect(userStatus)}")
 
-    return res.reply "#{user.real_name} should be in..." unless status?
-    res.reply "#{user.real_name} is #{status}"
+    return res.reply "#{user.real_name} is in" unless userStatus.status?
+    
+    fromClause = createFromClause userStatus.startDate
+    untilClause = createUntilClause userStatus.endDate
+    res.reply "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}"
+
 
   robot.respond /where(\'s| is) every(one|body)\??/i, (res) ->
     results = []
@@ -131,6 +143,7 @@ setUntilDate = (robot, res, statusMessage) ->
         # robot.logger.debug("Brain Full: #{util.inspect(robot.brain)}");
         brain = robot.brain.userForName(user)
         robot.brain.set("#{user}.userStatus", userStatus)
+        
         robot.logger.debug("Brain Status: #{util.inspect(robot.brain, { depth: null })}");
         return res.reply(statusMessage)
    
@@ -155,9 +168,19 @@ setUntilDate = (robot, res, statusMessage) ->
         
         
         robot.brain.set("#{user}.userStatus", userStatus)
-        # robot.logger.debug("Brain Status: #{util.inspect(robot.brain, { depth: null })}");
-        #{moment(chrono.parseDate('12/31/16')).format(momentFormat)}
-        fromClause = " from #{moment(userStatus.startDate).format(momentFormat)}" if userStatus.startDate
-        untilClause =  " until #{moment(userStatus.endDate).format(momentFormat)}" if userStatus.endDate
-        return res.reply "#{userStatus.status}#{fromClause}#{untilClause}"
 
+        return res.reply "#{userStatus.status}#{createFromClause userStatus.startDate}#{createUntilClause userStatus.endDate}"
+
+createFromClause = (startDate) ->
+    if startDate?
+        return " from #{moment(startDate).format(momentFormat)}"
+    else
+    #Don't want Undef
+        return ""
+
+createUntilClause = (endDate) ->
+    if endDate?
+        return " until #{moment(endDate).format(momentFormat)}" 
+    else
+        #Don't want Undef
+        return ""
