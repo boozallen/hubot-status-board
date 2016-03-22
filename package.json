@@ -1,5 +1,5 @@
 {
-  "name": "hubot-hubot-status-board",
+  "name": "hubot-status-board",
   "description": "A hubot script that tracks the status of people.  Who's in, who's out with from and until.  Original concept based on hubot-out-of-office.",
   "version": "0.0.0",
   "author": "jasonnic@gmail.com <nichols_jason@bah.com>",
