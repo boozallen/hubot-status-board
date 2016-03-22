@@ -5,14 +5,32 @@
 #   LIST_OF_ENV_VARS_TO_SET
 #
 # Commands:
-# hubot I am out of the office
-# hubot I am on vacation
-# hubot I am remote
-# hubot I am on an errand
-# hubot I am on travel
-# hubot I am sick
+# hubot I am out of the office <optional natural language based date>
+# hubot I am on vacation <optional natural language based date>
+# hubot I am remote <optional natural language based date>
+# hubot I am on an errand <optional natural language based date>
+# hubot I am on travel <optional natural language based date>
+# hubot I am sick <optional natural language based date>
+# hubot I am back - tell hubot you are back
+# hubot Where is everybody? - ask hubot where everybody is
+# hubot Where is @user1? - ask hubot where user1 is
+# hubot it's a new day|reset - resets everyone's status to in for a fresh day of fun
+# hubot HARDRESET - forces reset for all users
 #
 # Notes:
+# Status can be modified with natural language based dates
+#  Sample Dates
+#    "monday - friday"
+#    "from wednesday till monday at 10"
+#    "10/10/16 - 10/20/16"
+#    "tomorrow"
+#    "tomorrow at 10"
+#    "tommorrow at 10 till friday at 12"
+
+# Parsing set to interpret dates such that monday - friday might not take next monday if today after Monday.
+# I've left this behavior in place.
+# Doesn't quite recognize that until tomorrow at 10 means that I'm out from now till tomorrow at 10
+
 #
 # Author:
 #   jasonnic@gmail.com <nichols_jason@bah.com>
@@ -21,8 +39,8 @@ chrono = require 'chrono-node'
 moment = require 'moment'
 util = require 'util'
 # Set moment to be Fri Mar 18 2016 12:00:00
-momentFormat = 'ddd MMM D YYYY [at] HH:mm'
-momentFormatNoTime ='ddd MMM D YYYY'
+momentFormat = 'ddd[,] MMM D[,] YYYY [at] HH:mm'
+momentFormatNoTime ='ddd[,] MMM D[,] YYYY'
 
 
 module.exports = (robot) ->
@@ -75,9 +93,8 @@ module.exports = (robot) ->
 
     return res.reply "#{user.real_name} is in" unless userStatus.status?
 
-    fromClause = createFromClause userStatus.startDate
-    untilClause = createUntilClause userStatus.endDate
-    res.reply "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}"
+
+    res.reply "#{user.real_name} is #{userStatus.status}#{createTemporalClause(userStatus)}"
 
 
   robot.respond /where(\'s| is) every(one|body)\??/i, (res) ->
@@ -89,9 +106,7 @@ module.exports = (robot) ->
       robot.logger.debug("UserStatus: #{util.inspect(userStatus)}")
 
       if userStatus?
-        fromClause = createFromClause userStatus.startDate
-        untilClause = createUntilClause userStatus.endDate
-        staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}\n"
+        staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{createTemporalClause(userStatus)}\n"
 
     robot.logger.debug("staffOutOfOffice: #{util.inspect(staffOutOfOffice)}")
     # response = results.reduce(((x,y) ->
@@ -123,9 +138,7 @@ module.exports = (robot) ->
 
                 if latestDate? && moment(latestDate).isAfter(chrono.parseDate("today"))
                     robot.logger.debug("Status Until: #{latestDate} not removing status")
-                    fromClause = createFromClause userStatus.startDate
-                    untilClause = createUntilClause userStatus.endDate
-                    staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{fromClause}#{untilClause}\n"
+                    staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{createTemporalClause userStatus}\n"
                 else
                     robot.brain.remove("#{user.name.toLowerCase()}.userStatus")
             else
@@ -146,24 +159,23 @@ module.exports = (robot) ->
 
 
 
-
+#Implied date seems to only show up with values at the hr if a user doesn't specify a time.  Since we
+#want the date to not end at 12pm we can
+#* add clause to date
+#* modify chrono code
+#* keep the 12pm but display the full date (using this option)
 setUntilDate = (robot, res, statusMessage) ->
 
     robot.logger.debug("Match: #{res.match[1]}")
     user = res.message.user.name.toLowerCase()
     userStatus = {status: statusMessage}
 
-
+    #Basically a status without a time frame (i.e. today).  This status will be reset nightly
     if res.match[1] is null or res.match[1] is "" or res.match[1] is undefined
-        # robot.logger.debug("Brain Full: #{util.inspect(robot.brain)}");
-        brain = robot.brain.userForName(user)
         robot.brain.set("#{user}.userStatus", userStatus)
-
-        robot.logger.debug("Brain Status: #{util.inspect(robot.brain, { depth: null })}");
         return res.reply(statusMessage)
 
     else
-        isAllDay = false
         activityDates = chrono.parse(res.match[1], new Date())
         robot.logger.debug("Activity Dates: #{util.inspect(activityDates, { depth: null })}")
 #         if moment(statusEndTime).isBefore(chrono.parseDate("today"))
@@ -174,38 +186,47 @@ setUntilDate = (robot, res, statusMessage) ->
 
         #A little trickery here ... if a time is used on the same day there's only one
         #parsed result so check to see if there's more than one in activityDates
-        userStatus.startDate = activityDates[0].start.date()
-        robot.logger.debug "Implied state = #{activityDates[0].start.impliedValues}"
 
-        # robot.logger.debug("ACTIVITY DATES SIZE #{activityDates.length}")
+        #If Implied date has an hour assume it's an all day activity
+        if activityDates[0].start.impliedValues.hour > 0
+          userStatus.allDayActivityOnStartDate = true
+        userStatus.startDate = activityDates[0].start.date()
+
+        robot.logger.debug("Userstatus: #{util.inspect(userStatus)}")
+
         if activityDates.length is 2
+          if activityDates[1].start.impliedValues.hour > 0
+            userStatus.allDayActivityOnEndDate = true
           userStatus.endDate = activityDates[1].start.date()
         else if activityDates[0].end?
+          if activityDates[0].end.impliedValues.hour > 0
+            userStatus.allDayActivityOnEndDate = true
           userStatus.endDate = activityDates[0].end.date()
-
 
         robot.brain.set("#{user}.userStatus", userStatus)
 
-        return res.reply "#{userStatus.status}#{createFromClause userStatus.startDate, isAllDay}#{createUntilClause userStatus.endDate, isAllDay}"
+        return res.reply "is #{userStatus.status}#{createTemporalClause userStatus}"
 
-createFromClause = (startDate, isAllDay) ->
-    if startDate?
-      #Simplify date (no time if this is an an all day event)
-      if !!isAllDay
-        return " from #{moment(startDate).format(momentFormatNoTime)}"
-      else
-        return " from #{moment(startDate).format(momentFormat)}"
+createTemporalClause = (userStatus) ->
+  returnStatement = ""
+  if userStatus.endDate?
+    functionWord=" from "
+  else
+    functionWord=" on "
+
+  if userStatus.startDate?
+    #Simplify date (no time if this is an an all day event)
+    if userStatus.allDayActivityOnStartDate
+      returnStatement =  "#{functionWord}#{moment(userStatus.startDate).format(momentFormatNoTime)}"
     else
-    #Don't want Undef
-        return ""
+      returnStatement = "#{functionWord}#{moment(userStatus.startDate).format(momentFormat)}"
+  else
+    #Coming in without a date
+    return " today"
 
-createUntilClause = (endDate, isAllDay) ->
-    if endDate?
-      if isAllDay?
-        return " until #{moment(endDate).format(momentFormatNoTime)}"
-      else
-        return " until #{moment(endDate).format(momentFormat)}"
-
+  if userStatus.endDate?
+    if userStatus.allDayActivityOnEndDate
+      returnStatement += " until #{moment(userStatus.endDate).format(momentFormatNoTime)}"
     else
-      #Don't want Undef
-      return ""
+      returnStatement += " until #{moment(userStatus.endDate).format(momentFormat)}"
+  return returnStatement
