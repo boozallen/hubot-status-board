@@ -1,4 +1,4 @@
-# hubot-hubot-status-board
+# hubot-status-board
 
 A hubot script that tracks the status of people.  Who's in, who's out with from and until.  Original concept based on hubot-out-of-office.
 

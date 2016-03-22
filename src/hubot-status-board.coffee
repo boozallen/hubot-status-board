@@ -30,6 +30,7 @@
 # Parsing set to interpret dates such that monday - friday might not take next monday if today after Monday.
 # I've left this behavior in place.
 # Doesn't quite recognize that until tomorrow at 10 means that I'm out from now till tomorrow at 10
+# Next week causes crash
 
 #
 # Author:

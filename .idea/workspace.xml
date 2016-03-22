@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69107dfb-7267-48bc-b41b-589c854768b1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hubot-status-board.coffee" afterPath="$PROJECT_DIR$/src/hubot-status-board.coffee" />
     </list>
     <ignored path="hubot-status-board.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,14 +27,14 @@
       <file leaf-file-name="hubot-status-board.coffee" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/hubot-status-board.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="29" column="108" selection-start-line="29" selection-start-column="108" selection-end-line="29" selection-end-column="108" />
+            <state relative-caret-position="165">
+              <caret line="154" column="28" selection-start-line="154" selection-start-column="17" selection-end-line="154" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="120">
@@ -59,39 +59,17 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
               <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-              <folding>
-                <marker date="1458637434000" expanded="true" signature="351:448" placeholder="{&quot;type&quot;: &quot;git&quot;...}" />
-                <marker date="1458637434000" expanded="true" signature="460:543" placeholder="{&quot;url&quot;: &quot;https://github.com/hubot-scripts/hubot-hubot-status-board/issues&quot;...}" />
-                <marker date="1458637434000" expanded="true" signature="563:621" placeholder="{&quot;chrono-node&quot;: &quot;^1.1.5&quot;...}" />
-                <marker date="1458637434000" expanded="true" signature="645:669" placeholder="{&quot;hubot&quot;: &quot;2.x&quot;...}" />
-                <marker date="1458637434000" expanded="true" signature="692:1088" placeholder="{&quot;chai&quot;: &quot;^2.3.0&quot;...}" />
-                <marker date="1458637434000" expanded="true" signature="1129:1159" placeholder="{&quot;test&quot;: &quot;grunt test&quot;...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="hubot-status-board-test.coffee" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/hubot-status-board-test.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2820">
-              <caret line="188" column="6" selection-start-line="188" selection-start-column="6" selection-end-line="188" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="720">
-                <caret line="48" column="33" selection-start-line="48" selection-start-column="33" selection-end-line="48" selection-end-column="33" />
-                <folding>
-                  <marker date="1458636413000" expanded="true" signature="435:467" placeholder="[...]" />
-                </folding>
-              </first_editor>
-              <second_editor />
+      <file leaf-file-name="hubot-status-board-test.coffee" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test/hubot-status-board-test.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="542">
+              <caret line="173" column="42" selection-start-line="173" selection-start-column="42" selection-end-line="173" selection-end-column="42" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -125,9 +103,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/test/hubot-status-board-test.coffee" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/src/hubot-status-board.coffee" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/hubot-status-board.coffee" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -159,8 +137,8 @@
     <detection-done>true</detection-done>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1639" />
-    <option name="y" value="1087" />
+    <option name="x" value="1820" />
+    <option name="y" value="211" />
     <option name="width" value="1400" />
     <option name="height" value="873" />
   </component>
@@ -180,7 +158,7 @@
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
-      <showMembers />
+      <showMembers ProjectPane="true" />
       <showModules />
       <showLibraryContents />
       <hideEmptyPackages />
@@ -197,12 +175,19 @@
       </pane>
       <pane id="Scratches" />
       <pane id="ProjectPane">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hubot-status-board" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="HbShouldOpenHtmlAsHb" value="" />
@@ -317,7 +302,7 @@
       <workItem from="1458520270626" duration="54000" />
       <workItem from="1458564679396" duration="13994000" />
       <workItem from="1458636196919" duration="547000" />
-      <workItem from="1458636807243" duration="501000" />
+      <workItem from="1458636807243" duration="1377000" />
     </task>
     <task id="LOCAL-00001" summary="Check in before changing to implied date">
       <created>1458629195314</created>
@@ -341,13 +326,13 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15096000" />
+    <option name="totallyTimeSpent" value="15972000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1639" y="1087" width="1400" height="873" extended-state="0" />
-    <editor active="true" />
+    <frame x="1820" y="211" width="1400" height="873" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.4848485" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.4848485" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Grunt " active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5151515" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -441,7 +426,7 @@
           <first_editor relative-caret-position="720">
             <caret line="48" column="33" selection-start-line="48" selection-start-column="33" selection-end-line="48" selection-end-column="33" />
             <folding>
-              <marker date="1458636413000" expanded="true" signature="435:467" placeholder="[...]" />
+              <marker date="1458687413000" expanded="true" signature="429:461" placeholder="[...]" />
             </folding>
           </first_editor>
           <second_editor />
@@ -503,14 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test/hubot-status-board-test.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2820">
-          <caret line="188" column="6" selection-start-line="188" selection-start-column="6" selection-end-line="188" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/mocha/lib/interfaces/bdd.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -527,27 +504,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-          <folding>
-            <marker date="1458636413000" expanded="true" signature="435:467" placeholder="[...]" />
-          </folding>
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="720">
-            <caret line="48" column="33" selection-start-line="48" selection-start-column="33" selection-end-line="48" selection-end-column="33" />
-            <folding>
-              <marker date="1458636413000" expanded="true" signature="435:467" placeholder="[...]" />
-            </folding>
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.editorconfig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -556,33 +512,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding>
-            <marker date="1458637434000" expanded="true" signature="351:448" placeholder="{&quot;type&quot;: &quot;git&quot;...}" />
-            <marker date="1458637434000" expanded="true" signature="460:543" placeholder="{&quot;url&quot;: &quot;https://github.com/hubot-scripts/hubot-hubot-status-board/issues&quot;...}" />
-            <marker date="1458637434000" expanded="true" signature="563:621" placeholder="{&quot;chrono-node&quot;: &quot;^1.1.5&quot;...}" />
-            <marker date="1458637434000" expanded="true" signature="645:669" placeholder="{&quot;hubot&quot;: &quot;2.x&quot;...}" />
-            <marker date="1458637434000" expanded="true" signature="692:1088" placeholder="{&quot;chai&quot;: &quot;^2.3.0&quot;...}" />
-            <marker date="1458637434000" expanded="true" signature="1129:1159" placeholder="{&quot;test&quot;: &quot;grunt test&quot;...}" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hubot-status-board.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="29" column="108" selection-start-line="29" selection-start-column="108" selection-end-line="29" selection-end-column="108" />
+        <state relative-caret-position="165">
+          <caret line="154" column="28" selection-start-line="154" selection-start-column="17" selection-end-line="154" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+          <folding>
+            <marker date="1458687413000" expanded="true" signature="429:461" placeholder="[...]" />
+          </folding>
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="2" selection-start-line="0" selection-start-column="2" selection-end-line="0" selection-end-column="2" />
+            <folding>
+              <marker date="1458687413000" expanded="true" signature="429:461" placeholder="[...]" />
+            </folding>
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/hubot-status-board-test.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        <state relative-caret-position="542">
+          <caret line="173" column="42" selection-start-line="173" selection-start-column="42" selection-end-line="173" selection-end-column="42" />
           <folding />
         </state>
       </provider>
