@@ -5,3 +5,5 @@ workspace.sublime-workspace
 /typings
 /.vscode
 .hubot_history
+.editorconfig
+
