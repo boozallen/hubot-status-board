@@ -147,7 +147,7 @@ describe 'hubot-status-board where are people', ->
 
     it "Should respond that Everyone is in except for:\nBoba is on vacation\nDarth is running an errand", ->
       #console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
-      expect(@room.messages).to.include.something.eql ['hubot', "Boba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016\n,Darth Vader is on an errand today\n"]
+      expect(@room.messages).to.include.something.eql ['hubot', "\n\tBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016,\n\tDarth Vader is on an errand today"]
 
 
 
@@ -177,7 +177,7 @@ describe 'hubot-status-board test reset options', ->
       @room.user.say 'Jason', 'hubot where\'s everybody'
 
     it 'Should Force Reset and mark everybody is in!', ->
-#      console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
+      console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
       expect(@room.messages).to.include.something.eql ['hubot', "Forced Reset Done, everybody's in!"]
 
   context 'Jason performs a reset', ->

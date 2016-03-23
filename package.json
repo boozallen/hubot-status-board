@@ -1,16 +1,16 @@
 {
   "name": "hubot-status-board",
   "description": "A hubot script that tracks the status of people.  Who's in, who's out with from and until.  Original concept based on hubot-out-of-office.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "jasonnic@gmail.com <nichols_jason@bah.com>",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "keywords": "status, vacation, travel",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hubot-scripts/hubot-hubot-status-board.git"
+    "url": "git://github.com/boozallen/hubot-status-board.git"
   },
   "bugs": {
-    "url": "https://github.com/hubot-scripts/hubot-hubot-status-board/issues"
+    "url": "https://github.com/boozallen/hubot-status-board/issues"
   },
   "dependencies": {
     "chrono-node": "^1.1.5",

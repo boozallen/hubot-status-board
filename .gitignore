@@ -1,9 +1,11 @@
-/node_modules
-/.idea
+node_modules
+.idea
 *.log
 workspace.sublime-workspace
-/typings
-/.vscode
+typings
+.vscode
 .hubot_history
 .editorconfig
+workspace.xml
+
 
