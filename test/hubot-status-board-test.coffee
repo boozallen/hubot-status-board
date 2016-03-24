@@ -147,7 +147,7 @@ describe 'hubot-status-board where are people', ->
 
     it "Should respond that Everyone is in except for:\nBoba is on vacation\nDarth is running an errand", ->
       #console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
-      expect(@room.messages).to.include.something.eql ['hubot', "\n\tBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016,\n\tDarth Vader is on an errand today"]
+      expect(@room.messages).to.include.something.eql ['hubot', "\nBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016,\nDarth Vader is on an errand today"]
 
 
 
@@ -163,10 +163,15 @@ describe 'hubot-status-board test reset options', ->
         name: "Darth"
         real_name: "Darth Vader"
       }
+      {
+        name: "Siracha"
+        real_name:"Siracha"
+      }
 
     ]
     @room.user.say 'Darth', "hubot I'm running an errand"
     @room.user.say 'Boba', "hubot I'm on vacation 10/10/16 - 10/20/16"
+
 
   afterEach ->
     @room.destroy()
@@ -187,7 +192,17 @@ describe 'hubot-status-board test reset options', ->
 
     it 'Should respond Nightly Reset Done, Everyone in except for boba out!', ->
       console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
-      expect(@room.messages).to.include.something.eql ['hubot', "It\'s a new day!  The team is in except for:\nBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016\n"]
+      expect(@room.messages).to.include.something.eql ['hubot', "It\'s a new day!  The team is in except for:\nBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016"]
+
+  context 'Jason performs a reset testing concept of today', ->
+    beforeEach ->
+      @room.user.say 'Siracha', "hubot I'm ooo today"
+      @room.user.say 'Jason', 'hubot reset'
+      @room.user.say 'Jason', 'hubot where\'s everybody'
+
+    it 'Should respond Nightly Reset Done, Everyone in except for boba out and siracha out!', ->
+      console.log("We got: #{util.inspect(@room.messages, { depth: null })}")
+      expect(@room.messages).to.include.something.eql ['hubot', "It\'s a new day!  The team is in except for:\nBoba Fett is on vacation from Mon, Oct 10, 2016 until Thu, Oct 20, 2016,\nSiracha is out of office on Thu, Mar 24, 2016"]
 
   context 'Jason performs a reset after boba comes back', ->
     beforeEach ->

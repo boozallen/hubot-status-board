@@ -98,7 +98,7 @@ module.exports = (robot) ->
       robot.logger.debug("UserStatus: #{util.inspect(userStatus)}")
 
       if userStatus?
-        staffOutOfOffice.push "\n\t#{user.real_name} is #{userStatus.status}#{createTemporalClause(userStatus)}"
+        staffOutOfOffice.push "\n#{user.real_name} is #{userStatus.status}#{createTemporalClause(userStatus)}"
 
     robot.logger.debug("staffOutOfOffice: #{util.inspect(staffOutOfOffice)}")
     # response = results.reduce(((x,y) ->
@@ -128,9 +128,9 @@ module.exports = (robot) ->
           latestDate = userStatus.endDate if userStatus.endDate?
           robot.logger.debug("latestDate: #{util.inspect(latestDate)}")
 
-          if latestDate? && moment(latestDate).isAfter(chrono.parseDate("today"))
+          if latestDate? && moment(latestDate).isAfter(chrono.parseDate("today at 00:00"))
             robot.logger.debug("Status Until: #{latestDate} not removing status")
-            staffOutOfOffice.push "#{user.real_name} is #{userStatus.status}#{createTemporalClause userStatus}\n"
+            staffOutOfOffice.push "\n#{user.real_name} is #{userStatus.status}#{createTemporalClause userStatus}"
           else
             robot.brain.remove("#{user.name.toLowerCase()}.userStatus")
         else
@@ -139,7 +139,7 @@ module.exports = (robot) ->
     robot.logger.debug("staffOutOfOffice: #{util.inspect(staffOutOfOffice)}")
 
     if staffOutOfOffice.length > 0
-      return res.send "It's a new day!  The team is in except for:\n#{staffOutOfOffice}"
+      return res.send "It's a new day!  The team is in except for:#{staffOutOfOffice}"
     else
       return res.send 'It\'s a new day!\nThe entire team is in!'
 
